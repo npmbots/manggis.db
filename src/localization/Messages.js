@@ -9,14 +9,7 @@ const Messages = {
     MODULE_NOT_FOUND: module => `Module ${module} is not installed`,
     SCRIPT_ERROR: (locate, error) => `Script Error on ${locate}, error stack: ${error}`,
     FATAL_ERROR: error => `FATAL ERROR! : ${error}`,
-
-    INVALID_OWNER_ID: id => `Cannot find User with ID ${id}`,
-    INVALID_CLIENT_ID: id => `Cannot find Client with ID ${id}`,
-    INVALID_OWNER_ID_NULL: `Invalid Owner ID!!`,
-    INVALID_CLIENT_ID_NULL: `Invalid Client ID!!`,
-    INVALID_TOKEN: 'Invalid Token!',
-    NOT_OWNER: bot => `You are not Owner of ${bot} Bot!`,
-    NOT_A_BOT: bot => `The ${bot} ID doesn't belong to any bot`
+    DATABASE_ERROR: error => `DATABASE ERROR found! : ${error}`
 };
 
 for (const [name, message] of Object.entries(Messages)) register(name, message);
