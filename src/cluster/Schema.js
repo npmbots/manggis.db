@@ -57,7 +57,9 @@ module.exports = (schema, database) => {
 		}
 
 		build() {
-			this.database.defineModel(this.schema.name, this.schema.schematic);
+			const a = `${this.dtabase.debugHeader }Building Schema ${this.schema.name}`
+			this.database.emit('debug', a);
+			this.database.defineModel(this.schema.name, super.schematic);
 		}
 	};
 };

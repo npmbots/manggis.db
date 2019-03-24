@@ -57,7 +57,7 @@ module.exports = class Database extends EventEmitter
 	}
 
 	/**
-	 * @function
+	 * @functiona
 	 * @returns {void}
 	 */
 	configure(options) {
