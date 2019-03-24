@@ -1,8 +1,9 @@
+const TreeMap = require('../utils/TreeMap');
 /**
  * A Class that provides client with cached database
- * @extends {Array}
+ * @extends {TreeMap}
  */
-module.exports = class QueryCollector extends Array {
+module.exports = class QueryCollector extends TreeMap {
 	/**
 	 * @constructor
 	 * @param {Database} extends [EventEmitter] client

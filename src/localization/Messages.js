@@ -1,6 +1,6 @@
 'use strict';
 
-const { register } = require('./Error');
+const { register } = require('./Error.js');
 
 const Messages = {
     INVALID_OPTION: (property, must) => `The ${property} option value must be ${must}`,

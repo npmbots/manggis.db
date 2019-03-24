@@ -373,4 +373,4 @@ module.exports = class Util {
             };
         });
     }
-}
+};

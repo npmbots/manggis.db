@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+global.Promise = require('bluebird');
 const { EventEmitter } = require('events');
 const { Error, TypeError, RangeError } = require('../localization');
+const fs = Promise.promisifyAll(require('fs'));
 /**
  * The source of everything, and the controller of database flow
  * Every Cluster and Function will be resolved here
@@ -21,7 +24,6 @@ module.exports = class Database extends EventEmitter
 	 * @param {Object} options.parameter
 	 */
 	constructor(options) {
-		mongoose.Promise = require('bluebird');
 		super();
 
 		this.url = options.url;
@@ -39,18 +41,37 @@ module.exports = class Database extends EventEmitter
 		this.session = mongoose;
 		this.Schema = mongoose.Schema;
 		/**
+		 * @function
+		 * @returns {any}
 		 * Contains various general-purpose utility methods.
 		 */
 		this.util = require('../utils/Util');
+
+		/**
+		 * @function
+		 * @returns {Schema}
+		 * Construct a Schema
+		 */
+		this.SchemaBuilder = (schemaparams) => require('./Schema')(schemaparams, this);
 		this.debugHeader = `[ws] [ManggisDB [Session - ${this.username}]] `;
 	}
 
-	constructor() {
-		
+	/**
+	 * @function
+	 * @returns {void}
+	 */
+	configure(options) {
+		const SchemaList = fs.readdirSync(options.schemaPath);
+		for (const SingleSchema of SchemaList) {
+			const Schematic = require(`../${this.schemapath}/${SingleSchema}`);
+			const resolved = new Schematic(this);
+			resolved.build();
+		}
 	}
 
 	/**
-	 * @function returns [mongoose]
+	 * @function
+	 * @returns {mongoose}
 	 */
 	get Mongoose() {
 		return this.session;

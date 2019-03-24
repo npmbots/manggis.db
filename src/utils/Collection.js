@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 const Util = require('./Util');
 
 /**
@@ -170,7 +171,7 @@ class Collection extends Map {
     find(fn, thisArg) {
         if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
         for (const [key, val] of this) {
-        	if (fn(val, key, this)) return val;
+        	if (fn(val, key, this)) return val; //eslint-disable-line
         }
         return undefined;
     }
