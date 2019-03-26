@@ -1,19 +1,22 @@
 {
- "extends": "eslint:recommended",
- "env": {
-     "node": true,
-     "es6": true
- },
- "parserOptions": {
-     "ecmaVersion": 2017,
-     "ecmaFeatures": {
-     }     
- },
- "rules": {
-     "no-console": "off",
-     "semi": "warn",
-     "no-unused-vars": "off",
-     "no-undef": "warn",
-     "no-redeclare": "off"
- }
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "extends": ["standard"],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2018
+    },
+    "rules": {
+        "no-unused-vars": "off",
+        "space-before-function-paren": "off",
+        "no-trailing-spaces": "off",
+        "no-console": "off",
+        "no-const-assign": "error"
+    }
 }

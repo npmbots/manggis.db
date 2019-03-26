@@ -1,4 +1,6 @@
-'use strict';
-
-module.exports = require('./Error');
-module.exports.Messages = require('./Messages');
+'use strict'
+/**
+ * @ignore
+ */
+module.exports = require('./Error')
+module.exports.Messages = require('./Messages')

@@ -2,6 +2,11 @@
 # Manggis.db
 A MongoDB wrapper using Mongoose API and memory caching for better callbacks
 
+<p align="center">
+	<a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="Standard - JavaScript Style Guide"></a>
+	<a href="https://github.com/standard/standard"><img src="https://cdn.rawgit.com/standard/standard/master/badge.svg" alt="Standard - JavaScript Style Guide"></a>
+</p> 
+
 ## About
 Manggis.db is a MongoDB Mongoose-based Wrapper for doing CRUD Job Asynchronously with less Callbacks. It is Bluebird Promise-based with a lots of configured function available for users to custom with. It is blazingly fast and efficient to use, furthermore also fit for big project. Since it is Mongoose-based, the Module itself are scalable and easy to use. With Schema-based, Manggis.db provide user with SchemaBuilder, makes them build Schemas with ease. 
 

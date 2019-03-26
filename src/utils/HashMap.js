@@ -3,11 +3,12 @@
  * @extends {Map}
  */
 module.exports = class HashMap extends Map {
-	constructor(iterable) {
-		super(iterable);
-	}
+  // eslint-disable-next-line no-useless-constructor
+  constructor (iterable) {
+    super(iterable)
+  }
 
-	toArray() {
-		return Array.from(new Set(this.map(x => x)));
-	}
-};
+  toArray () {
+    return Array.from(new Set(this.map(x => x)))
+  }
+}
