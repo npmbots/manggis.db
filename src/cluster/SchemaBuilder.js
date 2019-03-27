@@ -1,5 +1,8 @@
 /* eslint-disable no-tabs */
 const { Schema } = require('mongoose')
+const _check = Symbol('check')
+const _ = require('lodash')
+const { Error, TypeError, RangeError } = require('../localization')
 /**
  * A class who manage everything the schema needs
  * @module SchemaBuilder
@@ -8,9 +11,10 @@ const { Schema } = require('mongoose')
 module.exports = class SchemaBuilder extends Schema {
   /**
    * @constructor
-   * @param {schema} schema definitely an object of schema
-   * @param {Database} extends [EventEmitter] the database client
-   * @typedef {schema.schematic} SchemaTypes [The permitted SchemaTypes are](https://mongoosejs.com/docs/guide.html)
+   * @param {Schema} schema definitely an object of schema.
+   * @param {Database} extends [EventEmitter] the database client.
+   * @typedef SchemaTypes
+   * The permitted SchemaTypes are:
    * - {String}
    * - {Number}
    * - {Date}
@@ -21,41 +25,20 @@ module.exports = class SchemaBuilder extends Schema {
    * - {Array}
    * - {Decimal128}
    * - {Map}
-   * @example
-   *  // this covers a quick example about how to create a Schema using SchemaBuilder
-   * 	// [Optional] create a childschema
-   * 	const comments = {
-   * 		body: String,
-   * 		date: Date
-   * 	}
-   * // Resolve the childschema
-   * 	const resolve_comment = new Childschema(comments)
-   * 	const schema = {
-   * // this will be the [Collection]'s Name
-   * 		name: 'carlist',
-   * // this will be the [Collection]'s Schema
-   * 		schematic: {
-   * 			_id: String, // You can replace ObjectId by adding this field
-   * 			name: String,
-   * 			releasedDate: { type: Date, default: Date.now },
-   * 			buyers: [{ name: String, date: Date }],
-   * // Include the childschema
-   * 			comment: resolve_comment,
-   * 			meta: {
-   * 				votes: Number,
-   * 				favorites: Number
-   * 			}
-   * 		}
-   * 	}
+   * [Offical Docs](https://mongoosejs.com/docs/guide.html)
    */
-  constructor (database, schema) {
-    super(schema.schematic)
+  constructor (database, name, schema) {
+    super(schema)
+    this[_check](name, 'Name')
 
     /**
      * An Object created for a purpose of defining schema
-     * @param {Object} schema
      */
     this.schema = schema
+    /**
+     * Scheme's name
+     */
+    this.name = name
     /**
      * The source of everything, and the controller of database flow
      * Every Cluster and Function will be resolved here
@@ -65,13 +48,20 @@ module.exports = class SchemaBuilder extends Schema {
   }
 
   /**
-   * @method
+   * @function
    * to define a schema into a model
    * @returns {void}
    */
   build () {
     const a = `${this.database.debugHeader}Building Schema ${this.schema.name}`
+    this[_check](this.schema)
     this.database.emit('debug', a)
-    this.database.defineModel(this.schema.name, super.schematic)
+    this.database.defineModel(this.schema.key, this)
+  }
+
+  [_check] (key, object) {
+    if (object === 'Name') {
+      if (!_.isString(key)) throw new TypeError('INVALID_SCHEMA', 'name', 'string')
+    }
   }
 }

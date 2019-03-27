@@ -2,7 +2,6 @@
 
 /**
  * @typedef Status
- * @ignore
  */
 exports.Status = {
   READY: 0,
@@ -15,6 +14,22 @@ exports.Status = {
 
 /**
  * @typedef Events
+ * The available events are:
+ * - ERROR: 'error' callback err
+ * - WARN: 'warn' callback warn
+ * - DEBUG: 'debug' callback debug
+ * - CONNECTED: 'connected'
+ * - DISCONNECTED: 'disconnected'
+ * - DATABASE_COLLECTING: 'databaseCollecting'
+ * - CACHE_REMOVED: 'cacheRemoved'
+ * @example
+ * Database#.on('error', => (err))
+ * Database#.on('warn', => (warn))
+ * Database#.on('debug', => (debug))
+ * Database#.on('connected', => (null))
+ * Database#.on('disconnected', => (null))
+ * Database#.on('databaseCollecting', => (null))
+ * Database#.on('cacheRemoved', => (null))
  */
 exports.Events = {
   ERROR: 'error',
@@ -28,7 +43,6 @@ exports.Events = {
 
 /**
  * @typedef Colors
- * @ignore
  * Hex of Colors
  */
 exports.Colors = {

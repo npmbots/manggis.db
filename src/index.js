@@ -1,8 +1,3 @@
-/**
- * Project Structure
- * Source of Everything
- * @module manggis.db
- */
 module.exports = {
   Client: require('./cluster/Database'),
   HashMap: require('./utils/HashMap'),

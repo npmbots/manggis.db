@@ -5,27 +5,22 @@
 <dd><p>The source of everything, and the controller of database flow
 Every Cluster and Function will be resolved here</p>
 </dd>
+<dt><a href="#module_QueryCollector">QueryCollector</a> ⇐ <code>TreeMap</code></dt>
+<dd><p>A Class that provides client with cached database.</p>
+</dd>
 <dt><a href="#module_SchemaBuilder">SchemaBuilder</a> ⇐ <code>Schema</code></dt>
 <dd><p>A class who manage everything the schema needs</p>
-</dd>
-<dt><a href="#manggis.module_db">db</a></dt>
-<dd><p>Project Structure
-Source of Everything</p>
-</dd>
-</dl>
-
-## Functions
-
-<dl>
-<dt><a href="#register">register(sym, val)</a></dt>
-<dd><p>Register an error code and message.</p>
 </dd>
 </dl>
 
 ## Typedefs
 
 <dl>
+<dt><a href="#Status">Status</a></dt>
+<dd></dd>
 <dt><a href="#Events">Events</a></dt>
+<dd></dd>
+<dt><a href="#Colors">Colors</a></dt>
 <dd></dd>
 <dt><a href="#StringResolvable">StringResolvable</a> : <code>string</code> | <code>Array</code> | <code>*</code></dt>
 <dd><p>Data that can be resolved to give a string. This can be:</p>
@@ -81,12 +76,13 @@ The source of everything, and the controller of database flowEvery Cluster and 
     * [module.exports](#exp_module_Database--module.exports) ⇐ <code>EventEmitter</code> ⏏
         * [new module.exports(options)](#new_module_Database--module.exports_new)
         * _instance_
+            * [.Promise](#module_Database--module.exports+Promise)
             * [.util()](#module_Database--module.exports+util) ⇒ <code>any</code>
             * [.SchemaBuilder()](#module_Database--module.exports+SchemaBuilder) ⇒ <code>Schema</code>
         * _inner_
             * [~Define a Model(name, Schema)](#module_Database--module.exports..Define a Model) ⇒ <code>mongoose.model</code>
             * [~Get a Model(name)](#module_Database--module.exports..Get a Model) ⇒ <code>mongoose.model</code>
-            * [~[void]Build Database()](#module_Database--module.exports..[void]Build Database)
+            * [~Build Database()](#module_Database--module.exports..Build Database) ⇒ <code>Mongoose</code>
 
 <a name="exp_module_Database--module.exports"></a>
 
@@ -108,6 +104,12 @@ The source of everything, and the controller of database flowEvery Cluster and 
 | options.database | <code>string</code> | For parameter, check this documentation [Official Mongoose Docs](https://mongoosejs.com/docs/connections.html#connections) |
 | options.parameter | <code>Object</code> |  |
 
+<a name="module_Database--module.exports+Promise"></a>
+
+#### module.exports.Promise
+Used a lot in the module
+
+**Kind**: instance property of [<code>module.exports</code>](#exp_module_Database--module.exports)  
 <a name="module_Database--module.exports+util"></a>
 
 #### module.exports.util() ⇒ <code>any</code>
@@ -137,10 +139,70 @@ The source of everything, and the controller of database flowEvery Cluster and 
 | --- | --- | --- |
 | name | <code>string</code> | the name of model |
 
-<a name="module_Database--module.exports..[void]Build Database"></a>
+<a name="module_Database--module.exports..Build Database"></a>
 
-#### module.exports~[void]Build Database()
+#### module.exports~Build Database() ⇒ <code>Mongoose</code>
 **Kind**: inner method of [<code>module.exports</code>](#exp_module_Database--module.exports)  
+<a name="module_QueryCollector"></a>
+
+## QueryCollector ⇐ <code>TreeMap</code>
+A Class that provides client with cached database.
+
+**Extends**: <code>TreeMap</code>  
+
+* [QueryCollector](#module_QueryCollector) ⇐ <code>TreeMap</code>
+    * [module.exports](#exp_module_QueryCollector--module.exports) ⏏
+        * [new module.exports(extends, collection)](#new_module_QueryCollector--module.exports_new)
+        * _instance_
+            * [.Promise](#module_QueryCollector--module.exports+Promise)
+        * _inner_
+            * [~fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.()](#module_QueryCollector--module.exports..fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.) ⇒ <code>Promise</code>
+            * [~fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously.()](#module_QueryCollector--module.exports..fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously.) ⇒ <code>Array</code>
+            * [~getGet a value from database.(key, refresh)](#module_QueryCollector--module.exports..getGet a value from database.) ⇒ <code>Promise</code>
+            * [~refreshUsed to refresh TreeMap and re-fetch Data from MongoDBUnavailable when using non-persistent Database()](#module_QueryCollector--module.exports..refreshUsed to refresh TreeMap and re-fetch Data from MongoDBUnavailable when using non-persistent Database) ⇒ <code>Promise</code>
+
+<a name="exp_module_QueryCollector--module.exports"></a>
+
+### module.exports ⏏
+**Kind**: Exported class  
+<a name="new_module_QueryCollector--module.exports_new"></a>
+
+#### new module.exports(extends, collection)
+
+| Param | Type | Description |
+| --- | --- | --- |
+| extends | <code>Database</code> | [EventEmitter] client |
+| collection | <code>mongoose.Scheme</code> |  |
+
+<a name="module_QueryCollector--module.exports+Promise"></a>
+
+#### module.exports.Promise
+Used a lot in this Class.
+
+**Kind**: instance property of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+<a name="module_QueryCollector--module.exports..fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself."></a>
+
+#### module.exports~fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.() ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+**Returns**: <code>Promise</code> - The QueryCollector TreeMap that contains every data.  
+<a name="module_QueryCollector--module.exports..fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously."></a>
+
+#### module.exports~fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously.() ⇒ <code>Array</code>
+**Kind**: inner method of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+<a name="module_QueryCollector--module.exports..getGet a value from database."></a>
+
+#### module.exports~getGet a value from database.(key, refresh) ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>string</code> | Database Key, as defined in the Schema. |
+| refresh | <code>\*</code> | Set as "true" to refresh Collector and fetch the new database from Mongo. Do remember that refresh is excuted first before returning a value. |
+
+<a name="module_QueryCollector--module.exports..refreshUsed to refresh TreeMap and re-fetch Data from MongoDBUnavailable when using non-persistent Database"></a>
+
+#### module.exports~refreshUsed to refresh TreeMap and re-fetch Data from MongoDBUnavailable when using non-persistent Database() ⇒ <code>Promise</code>
+**Kind**: inner method of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
 <a name="module_SchemaBuilder"></a>
 
 ## SchemaBuilder ⇐ <code>Schema</code>
@@ -151,10 +213,11 @@ A class who manage everything the schema needs
 * [SchemaBuilder](#module_SchemaBuilder) ⇐ <code>Schema</code>
     * _instance_
         * [.schema](#module_SchemaBuilder+schema)
+        * [.name](#module_SchemaBuilder+name)
         * [.database](#module_SchemaBuilder+database) ⇐ <code>EventEmitter</code>
     * _inner_
         * [~to define a schema into a model()](#module_SchemaBuilder..to define a schema into a model) ⇒ <code>void</code>
-        * [~SchemaTypes](#module_SchemaBuilder..SchemaTypes) : <code>schema.schematic</code>
+        * [~SchemaTypes](#module_SchemaBuilder..SchemaTypes) : <code>String</code>
 
 <a name="module_SchemaBuilder+schema"></a>
 
@@ -162,11 +225,12 @@ A class who manage everything the schema needs
 An Object created for a purpose of defining schema
 
 **Kind**: instance property of [<code>SchemaBuilder</code>](#module_SchemaBuilder)  
+<a name="module_SchemaBuilder+name"></a>
 
-| Param | Type |
-| --- | --- |
-| schema | <code>Object</code> | 
+### schemaBuilder.name
+Scheme's name
 
+**Kind**: instance property of [<code>SchemaBuilder</code>](#module_SchemaBuilder)  
 <a name="module_SchemaBuilder+database"></a>
 
 ### schemaBuilder.database ⇐ <code>EventEmitter</code>
@@ -180,40 +244,31 @@ The source of everything, and the controller of database flowEvery Cluster and 
 **Kind**: inner method of [<code>SchemaBuilder</code>](#module_SchemaBuilder)  
 <a name="module_SchemaBuilder..SchemaTypes"></a>
 
-### SchemaBuilder~SchemaTypes : <code>schema.schematic</code>
-[The permitted SchemaTypes are](https://mongoosejs.com/docs/guide.html)- {String}- {Number}- {Date}- {Buffer}- {Boolean}- {Mixed}- {ObjectId}- {Array}- {Decimal128}- {Map}
+### SchemaBuilder~SchemaTypes : <code>String</code>
+The permitted SchemaTypes are:- - {Number}- {Date}- {Buffer}- {Boolean}- {Mixed}- {ObjectId}- {Array}- {Decimal128}- {Map}[Offical Docs](https://mongoosejs.com/docs/guide.html)
 
 **Kind**: inner typedef of [<code>SchemaBuilder</code>](#module_SchemaBuilder)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| schema | <code>schema</code> | definitely an object of schema |
-| extends | <code>Database</code> | [EventEmitter] the database client |
+| schema | <code>Schema</code> | definitely an object of schema. |
+| extends | <code>Database</code> | [EventEmitter] the database client. |
 
-**Example**  
-```js
-// this covers a quick example about how to create a Schema using SchemaBuilder	// [Optional] create a childschema	const comments = {		body: String,		date: Date	}// Resolve the childschema	const resolve_comment = new Childschema(comments)	const schema = {// this will be the [Collection]'s Name		name: 'carlist',// this will be the [Collection]'s Schema		schematic: {			_id: String, // You can replace ObjectId by adding this field			name: String,			releasedDate: { type: Date, default: Date.now },			buyers: [{ name: String, date: Date }],// Include the childschema			comment: resolve_comment,			meta: {				votes: Number,				favorites: Number			}		}	}
-```
-<a name="manggis.module_db"></a>
+<a name="Status"></a>
 
-## db
-Project StructureSource of Everything
-
-<a name="register"></a>
-
-## register(sym, val)
-Register an error code and message.
-
-**Kind**: global function  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| sym | <code>string</code> | Unique name for the error |
-| val | <code>\*</code> | Value of the error |
-
+## Status
+**Kind**: global typedef  
 <a name="Events"></a>
 
 ## Events
+**Kind**: global typedef  
+**Example**  
+```js
+Database#.on('error', => (err))Database#.on('warn', => (warn))Database#.on('debug', => (debug))Database#.on('connected', => (null))Database#.on('disconnected', => (null))Database#.on('databaseCollecting', => (null))Database#.on('cacheRemoved', => (null))
+```
+<a name="Colors"></a>
+
+## Colors
 **Kind**: global typedef  
 <a name="StringResolvable"></a>
 

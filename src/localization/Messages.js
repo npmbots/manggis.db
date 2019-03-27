@@ -4,6 +4,7 @@ const { register } = require('./Error.js')
 
 const Messages = {
   INVALID_OPTION: (property, must) => `The ${property} option value must be ${must}`,
+  INVALID_SCHEMA: (property, must) => `The scheme must be supplied with ${property} field or need to be an instance of ${must}`,
 
   FILE_NOT_FOUND: file => `File could not be found: ${file}`,
   MODULE_NOT_FOUND: module => `Module ${module} is not installed`,

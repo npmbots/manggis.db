@@ -1,9 +1,11 @@
-const mongoose = require('mongoose')
+const mongoose = require('bluebird').promisifyAll(require('mongoose'))
+const fs = require('bluebird').promisifyAll(require('fs'))
 mongoose.Promise = require('bluebird')
-global.Promise = require('bluebird')
 const { EventEmitter } = require('events')
 const { Error, TypeError, RangeError } = require('../localization')
-const fs = Promise.promisifyAll(require('fs'))
+
+const _parse = Symbol('parse')
+const _isPersistent = Symbol('validate')
 /**
  * The source of everything, and the controller of database flow
  * Every Cluster and Function will be resolved here
@@ -31,7 +33,7 @@ module.exports = class Database extends EventEmitter {
     this.username = options.username
     this.password = options.password
     this.port = options.port
-    this.provider = options.database
+    this.provider = options.provider
     if (!options.parameter) {
       this.parameter = {
         useNewUrlParser: true
@@ -40,8 +42,15 @@ module.exports = class Database extends EventEmitter {
       this.parameter = options.parameter
     }
 
+    if (this[_isPersistent]()) this.persistent = true
+
     this.session = mongoose
     this.Schema = mongoose.Schema
+
+    /**
+     * Used a lot in the module
+     */
+    this.Promise = require('bluebird')
     /**
      * @function
      * @returns {any}
@@ -110,37 +119,53 @@ module.exports = class Database extends EventEmitter {
   }
 
   /**
+   * @ignore
    * @private
-   * @function void parse the options and parameter
+   * @function
+   * @returns {void}
    */
-  parse () {
+  [_parse] () {
     const a = this.debugHeader + 'Parsing parameter...'
     this.emit('debug', a)
-    if (typeof this.url === 'string' || this.url.startsWith('mongodb://')) {
+    if (typeof this.url !== 'string' || this.url.startsWith('mongodb://')) {
       throw new TypeError('INVALID_OPTION', 'url', 'proper string without method/protocol of "mongodb://"')
     }
-    if (typeof this.username === 'string') {
+    if (typeof this.username !== 'string') {
       throw new TypeError('INVALID_OPTION', 'username', 'proper valid string')
     }
-    if (typeof this.password === 'string') {
+    if (typeof this.password !== 'string') {
       throw new TypeError('INVALID_OPTION', 'password', 'proper valid string')
     }
     if (isNaN(this.port)) {
       throw new TypeError('INVALID_OPTION', 'port', 'proper valid port/number')
     }
-    if (typeof this.provider === 'string') {
+    if (typeof this.provider !== 'string') {
       throw new TypeError('INVALID_OPTION', 'database/provider', 'proper valid string')
     }
   }
 
   /**
-   * @function [void]
+   * @ignore
+   * @function
+   * @private
+   * @returns {boolean}
+   */
+  [_isPersistent] () {
+    if (!this.username && !this.password && !this.port && !this.url && !this.database) {
+      return false
+    }
+    return true
+  }
+
+  /**
+   * @function
    * Build Database
+   * @return {Mongoose}
    */
   build () {
-    this.parse()
+    if (this[_isPersistent]()) this[_parse]()
     this.URI = `mongodb://${this.username}:${this.password}@${this.url}:${this.port}/${this.database}`
-    this.session.connect(this.URI, this.parameter).then(() => {
+    return this.session.connect(this.URI.toString(), this.parameter).then(() => {
       this.emit('connected')
     }).catch(err => {
       this.emit('error', err)
