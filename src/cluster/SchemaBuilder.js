@@ -13,6 +13,7 @@ module.exports = class SchemaBuilder extends Schema {
    * @constructor
    * @param {Schema} schema definitely an object of schema.
    * @param {Database} extends [EventEmitter] the database client.
+   * @param {string} name Define the name of Schema
    * @typedef SchemaTypes
    * The permitted SchemaTypes are:
    * - {String}
@@ -56,7 +57,7 @@ module.exports = class SchemaBuilder extends Schema {
     const a = `${this.database.debugHeader}Building Schema ${this.schema.name}`
     this[_check](this.schema)
     this.database.emit('debug', a)
-    this.database.defineModel(this.schema.key, this)
+    this.database.defineModel(this.name, this)
   }
 
   [_check] (key, object) {

@@ -6,5 +6,6 @@ module.exports = {
   Collection: require('./utils/Collection'),
   Util: require('./utils/Util'),
   Schema: require('mongoose').Schema,
-  SchemaBuilder: require('./cluster/SchemaBuilder')
+  SchemaBuilder: require('./cluster/SchemaBuilder'),
+  QueryCollector: require('./cluster/QueryCollector')
 }

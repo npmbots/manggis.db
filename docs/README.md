@@ -101,7 +101,7 @@ The source of everything, and the controller of database flowEvery Cluster and 
 | options.username | <code>string</code> |  |
 | options.password | <code>string</code> |  |
 | options.port | <code>number</code> |  |
-| options.database | <code>string</code> | For parameter, check this documentation [Official Mongoose Docs](https://mongoosejs.com/docs/connections.html#connections) |
+| options.provider | <code>string</code> | For parameter, check this documentation [Official Mongoose Docs](https://mongoosejs.com/docs/connections.html#connections) |
 | options.parameter | <code>Object</code> |  |
 
 <a name="module_Database--module.exports+Promise"></a>
@@ -156,6 +156,7 @@ A Class that provides client with cached database.
         * _instance_
             * [.Promise](#module_QueryCollector--module.exports+Promise)
         * _inner_
+            * [~syncto Synchronous-ify a function(fn)](#module_QueryCollector--module.exports..syncto Synchronous-ify a function) ⇒ <code>function</code>
             * [~fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.()](#module_QueryCollector--module.exports..fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.) ⇒ <code>Promise</code>
             * [~fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously.()](#module_QueryCollector--module.exports..fetchAllSyncFetch BSON Document fron Database MongoDB Client Synchronously.) ⇒ <code>Array</code>
             * [~getGet a value from database.(key, refresh)](#module_QueryCollector--module.exports..getGet a value from database.) ⇒ <code>Promise</code>
@@ -180,6 +181,15 @@ A Class that provides client with cached database.
 Used a lot in this Class.
 
 **Kind**: instance property of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+<a name="module_QueryCollector--module.exports..syncto Synchronous-ify a function"></a>
+
+#### module.exports~syncto Synchronous-ify a function(fn) ⇒ <code>function</code>
+**Kind**: inner method of [<code>module.exports</code>](#exp_module_QueryCollector--module.exports)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | The function that will be executed |
+
 <a name="module_QueryCollector--module.exports..fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself."></a>
 
 #### module.exports~fetchAllFetch BSON Document from Database MongoDB Client.In Another word, the Data itself.() ⇒ <code>Promise</code>
@@ -253,6 +263,7 @@ The permitted SchemaTypes are:- - {Number}- {Date}- {Buffer}- {Boolean}- {
 | --- | --- | --- |
 | schema | <code>Schema</code> | definitely an object of schema. |
 | extends | <code>Database</code> | [EventEmitter] the database client. |
+| name | <code>string</code> | Define the name of Schema |
 
 <a name="Status"></a>
 

@@ -22,7 +22,7 @@ module.exports = class Database extends EventEmitter {
    * @param {string} options.username
    * @param {string} options.password
    * @param {number} options.port
-   * @param {string} options.database
+   * @param {string} options.provider
    * For parameter, check this documentation [Official Mongoose Docs](https://mongoosejs.com/docs/connections.html#connections)
    * @param {Object} options.parameter
    */
@@ -164,7 +164,8 @@ module.exports = class Database extends EventEmitter {
    */
   build () {
     if (this[_isPersistent]()) this[_parse]()
-    this.URI = `mongodb://${this.username}:${this.password}@${this.url}:${this.port}/${this.database}`
+    // mongodb://user:password@host:port/dbname?authSource=dbWithUserCredentials
+    this.URI = `mongodb://${this.username}:${this.password}@${this.url}:${this.port.toString()}/${this.provider}`
     return this.session.connect(this.URI.toString(), this.parameter).then(() => {
       this.emit('connected')
     }).catch(err => {

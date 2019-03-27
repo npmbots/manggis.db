@@ -26,6 +26,12 @@ module.exports = class QueryCollector extends TreeMap {
     this.Promise = require('bluebird')
   }
 
+  /**
+   * @function sync
+   * to Synchronous-ify a function
+   * @param {function} fn The function that will be executed
+   * @returns {function}
+   */
   sync (fn) {
     var result = fn
     if (result === undefined) {
@@ -65,7 +71,8 @@ module.exports = class QueryCollector extends TreeMap {
    */
   fetchAllSync () {
     const query = this.client.getModel(this.collection.toLowerCase()).find()
-    return (this.sync(query))
+    this.sync(query)
+    return this
   }
 
   /**
@@ -93,9 +100,12 @@ module.exports = class QueryCollector extends TreeMap {
    */
   refresh () {
     super.clear()
-    return new this.Promise((resolve, reject) => {
-      return this.fetchAll()
-    })
+    return this.fetchAll()
+  }
+
+  refreshSync () {
+    super.clear()
+    return this.fetchAllSync()
   }
 
   [_check] (key) {
