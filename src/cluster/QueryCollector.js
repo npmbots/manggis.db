@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const TreeMap = require('../utils/TreeMap')
 const { Error, TypeError, RangeError } = require('../localization')
-// TESTING GIT PUSH v3
+// TESTING GIT PUSH v4
 /**
  * Private method
  */
