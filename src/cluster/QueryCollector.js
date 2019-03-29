@@ -2,7 +2,11 @@ const _ = require('lodash')
 const TreeMap = require('../utils/TreeMap')
 const { Error, TypeError, RangeError } = require('../localization')
 
+/**
+ * Private method
+ */
 const _check = Symbol('check')
+const _init = Symbol('init')
 /**
  * A Class that provides client with cached database.
  * @module QueryCollector
@@ -10,16 +14,23 @@ const _check = Symbol('check')
  */
 module.exports = class QueryCollector extends TreeMap {
   /**
+   * Construct a Collector to store data temporary.
    * @constructor
-   * @param {Database} extends [EventEmitter] client
-   * @param {mongoose.Scheme} collection
+   * @param {Database} client The Database Client.
+   * @param {mongoose.Scheme} collection The Schema name.
    */
   constructor (client, collection) {
     super()
 
+    /**
+     * Block all operation if the client is not ready
+     */
+    if (this.clientStatus === 0) throw new Error('DATABASE_ERROR', 'The client is not ready yet. Don\'t forget to invoke `.build()` method.')
+
     this.client = client
     this.collection = collection
 
+    if (this.client.persistent) this[_init]()
     /**
      * Used a lot in this Class.
      */
@@ -27,27 +38,9 @@ module.exports = class QueryCollector extends TreeMap {
   }
 
   /**
-   * @function sync
-   * to Synchronous-ify a function
-   * @param {function} fn The function that will be executed
-   * @returns {function}
-   */
-  sync (fn) {
-    var result = fn
-    if (result === undefined) {
-      const seconds = 1
-      var waitTill = new Date(new Date().getTime() + seconds * 100)
-      while (waitTill > new Date()) {
-        return this.sync(fn)
-      }
-    }
-    return result
-  }
-
-  /**
-   * @function fetchAll
    * Fetch BSON Document from Database MongoDB Client.
    * In Another word, the Data itself.
+   * @method fetchAll
    * @returns {Promise} The QueryCollector TreeMap that contains every data.
    */
   fetchAll () {
@@ -65,22 +58,10 @@ module.exports = class QueryCollector extends TreeMap {
   }
 
   /**
-   * @function fetchAllSync
-   * Fetch BSON Document fron Database MongoDB Client Synchronously.
-   * @returns {Array}
-   */
-  fetchAllSync () {
-    const query = this.client.getModel(this.collection.toLowerCase()).find()
-    this.sync(query)
-    return this
-  }
-
-  /**
-   * @function get
    * Get a value from database.
+   * @method get
    * @param {string} key Database Key, as defined in the Schema.
-   * @param {*} refresh Set as "true" to refresh Collector and fetch the new database from Mongo.
-   * Do remember that refresh is excuted first before returning a value.
+   * @param {*} refresh Set as "true" to refresh Collector and fetch the new database from Mongo. Do remember that refresh is excuted first before returning a value.
    * @returns {Promise}
    */
   get (key, refresh = false) {
@@ -93,23 +74,28 @@ module.exports = class QueryCollector extends TreeMap {
   }
 
   /**
-   * @function refresh
    * Used to refresh TreeMap and re-fetch Data from MongoDB
    * Unavailable when using non-persistent Database
+   * @method refresh
    * @returns {Promise}
    */
-  refresh () {
+  async refresh () {
     super.clear()
-    return this.fetchAll()
-  }
-
-  refreshSync () {
-    super.clear()
-    return this.fetchAllSync()
+    await this.fetchAll()
   }
 
   [_check] (key) {
     const a = `The ${key} key does not exist on the treemap, please check again using check() and do refresh()`
     if (!this.has(key)) return this.client.emit('warn', a)
+  }
+
+  /**
+   * Initialize Collector
+   * @method _init
+   * @private
+   * @returns {void}
+   */
+  async [_init] () {
+    await this.fetchAll()
   }
 }

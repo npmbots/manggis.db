@@ -2,6 +2,10 @@
 const Util = require('./Util')
 
 /**
+ * Copyright goes to Discord.js
+ */
+
+/**
  * A Map with additional utility methods. Provided by Discord.js, This is used throughout the library
  * rather than Arrays for anything that has an ID, for significantly improved performance and ease-of-use.
  * @extends {Map}
